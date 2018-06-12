@@ -1,4 +1,4 @@
-// This script is used to merge new added translation strings to exist strings.xml in Android project
+// Check excel key whether conflict with exist Android project
 
 const fs = require('fs');
 const readline = require('readline');
@@ -18,25 +18,24 @@ mergeFile(newTranslationStringDirectory, existAndroidStringDirectory);
 
 
 function mergeFile(srcDir, dstDir){
-    fs.readdir(srcDir, function(err, items) {
+    var params = new Object();
+    params.mergeFile = srcDir + "/values/strings.xml";
+
+    fs.readdir(dstDir, function(err, items) {
         if(err)throw err;
         for (var i=0; i<items.length; i++) {
-            var path = srcDir +"/" + items[i];
+            var path = dstDir +"/" + items[i];
             if(fs.lstatSync(path).isDirectory() && path.indexOf('values-') > 0 ){
-                var params = new Object();
-                params.srcFile = dstDir + "/" + items[i] + "/strings.xml";
-                params.mergeFile = path + "/strings.xml";
+                params.srcFile = path + "/strings.xml";
                 params.newSrcFileContext = '';
                 params.endFileTag = '';
-                params.keyConflict = false;
+                params.keyConflictCnt = 0;
                 readSrcFile(params);
-            }else{
-                console.log("Skipped " + path);
+                break;
             }
         }
     });
 }
-
 
 function readSrcFile(params) {
     console.log(params);
@@ -68,7 +67,7 @@ function isExist(params, line){
     var key = line.substring(start + 1, end);
     if(params.newSrcFileContext.indexOf(key) > 0){
         console.log("Exist key " + key + ", in " + params.srcFile);
-        params.keyConflict = true;
+        params.keyConflictCnt ++;
         return true;
     }
     return false;
@@ -91,15 +90,9 @@ function readMergeFile(params) {
     });
 
     rl.on('close', () =>{
-        if(params.keyConflict){
-            console.log("please resole above key conflict first");
+        if(params.keyConflictCnt > 0){
+            console.log("please resole above key conflict first, total conflicts is " + params.keyConflictCnt);
             process.exit(1);
-        }else{
-            params.newSrcFileContext += params.endFileTag;
-            fs.writeFile(params.srcFile, params.newSrcFileContext, function(err){
-                if(err) throw err;
-                console.log("merge file success, new file is " + params.srcFile);
-            });
         }
     });
 }
