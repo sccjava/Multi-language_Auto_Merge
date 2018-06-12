@@ -74,6 +74,21 @@ function isExist(params, line){
     return false;
 }
 
+/**
+  https://developer.android.com/guide/topics/resources/string-resource#FormattingAndStyling
+  aa'b  --->  "aa'b"
+*/
+function escape(str){
+    var startIndex = str.indexOf('>');
+    var endIndex = str.indexOf('<', startIndex);
+    var str1 = str.substring(startIndex + 1, endIndex);
+    if(str1.indexOf('\'') > 0){
+        str1 = '"' + str1 + '"';
+    }
+    var newStr = str.substring(0, startIndex + 1) + str1 + str.substring(endIndex, str.length);
+    return newStr;
+}
+
 function readMergeFile(params) {
     const rl = readline.createInterface({
         input: fs.createReadStream(params.mergeFile),
@@ -84,14 +99,14 @@ function readMergeFile(params) {
         if(line){
             if((line.trim().indexOf('<string') == 0)){
                 if(!isExist(params, line)){
-                    params.newSrcFileContext += line.trim() + "\n";
+                    params.newSrcFileContext += escape(line.trim()) + "\n";
                 }
             }
         }
     });
 
     rl.on('close', () =>{
-        if(params.keyConflict){
+        if(true && params.keyConflict){
             console.log("please resole above key conflict first");
             process.exit(1);
         }else{
