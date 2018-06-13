@@ -6,7 +6,7 @@ This script is used to merge new added translation strings to exist Android/iOS 
 
 
 Usage:
-1. Check excel(going to translate) strings whether already translated on your exist project by executing below script(Only support on Android).
+1. Check excel(going to translate) strings whether already translated on your exist project by executing below script(Only support on Android).  
    ./check_key_conflict.sh xxx/xxx.xlsx xxx/app/src/main/res
 
 2. If detected excel(going to translate) has strings conflict, remove duplicated strings from excel.
@@ -14,5 +14,5 @@ Usage:
 
 3. Confirm your translated excel column filled with correct country code, Android's country code can refer to https://github.com/championswimmer/android-locales
 
-4. After solve all of conflicts, execute below script to merge strings to project automatically.
+4. After solve all of conflicts, execute below script to merge strings to project automatically.  
    ./multi_language_audo_merge.sh android xxx/xxx.xlsx xxx/app/src/main/res
