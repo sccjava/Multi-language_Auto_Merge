@@ -74,17 +74,23 @@ function isExist(params, line){
     return false;
 }
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+}
+
 /**
   https://developer.android.com/guide/topics/resources/string-resource#FormattingAndStyling
-  aa'b  --->  "aa'b"
+  aa'b  --->  aa\'b
+  aa"b  --->  aa\"b
 */
 function escape(str){
     var startIndex = str.indexOf('>');
     var endIndex = str.indexOf('<', startIndex);
     var str1 = str.substring(startIndex + 1, endIndex);
-    if(str1.indexOf('\'') > 0){
-        str1 = '"' + str1 + '"';
-    }
+    str1 = str1.replaceAll('\'', '\\\'');
+    str1 = str1.replaceAll('"', '\\"');
+    str1 = str1.replaceAll('\\\\\\\\', '\\');
     var newStr = str.substring(0, startIndex + 1) + str1 + str.substring(endIndex, str.length);
     return newStr;
 }
