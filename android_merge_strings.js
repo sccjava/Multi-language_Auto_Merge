@@ -81,17 +81,22 @@ String.prototype.replaceAll = function(search, replacement) {
 
 /**
   https://developer.android.com/guide/topics/resources/string-resource#FormattingAndStyling
+  aa %@ b ->  aa %1$s b
   aa'b  --->  aa\'b
   aa"b  --->  aa\"b
 */
 function escape(str){
     var startIndex = str.indexOf('>');
     var endIndex = str.indexOf('<', startIndex);
-    var str1 = str.substring(startIndex + 1, endIndex);
-    str1 = str1.replaceAll('\'', '\\\'');
-    str1 = str1.replaceAll('"', '\\"');
-    str1 = str1.replaceAll('\\\\\\\\', '\\');
-    var newStr = str.substring(0, startIndex + 1) + str1 + str.substring(endIndex, str.length);
+    var content = str.substring(startIndex + 1, endIndex);
+    var cnt = (content.match(/%@/g) || []).length;
+    for(var i = 1 ; i <= cnt; i ++){
+        content = content.replace('%@', '%'+i+'$s');
+    }
+    content = content.replaceAll('\'', '\\\'');
+    content = content.replaceAll('"', '\\"');
+    content = content.replaceAll('\\\\\\\\', '\\');
+    var newStr = str.substring(0, startIndex + 1) + content + str.substring(endIndex, str.length);
     return newStr;
 }
 
@@ -112,7 +117,7 @@ function readMergeFile(params) {
     });
 
     rl.on('close', () =>{
-        if(true && params.keyConflict){
+        if(params.keyConflict){
             console.log("please resole above key conflict first");
             process.exit(1);
         }else{

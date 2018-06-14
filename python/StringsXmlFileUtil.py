@@ -39,7 +39,7 @@ class StringsXmlFileUtil:
             key = keys[x].strip()
             value = re.sub(r'(%\d\$)(@)', r'\1s', values[x])
             #Log.info("value---->" + StringsXmlFileUtil.replaceStr(value))
-            value = StringsXmlFileUtil.replaceStr(value)
+            #value = StringsXmlFileUtil.replaceStr(value)
             content = "   <string name=\"" + key + "\">" + value + "</string>\n"
             fo.write(content);
 
