@@ -26,6 +26,7 @@ if [ $platform == "android" ]; then
 	node $projectHome/android_merge_strings.js $stringOutPath/$platform $dstStringDirectory
 fi
 
-if [ $platform == "ios" ]; then
-	echo "todo"
+if [ $platform == "iOS" ]; then
+	echo "merging iOS strings....from $stringOutPath/$platform to $dstStringDirectory"
+	node $projectHome/iOS_merge_strings.js $stringOutPath/$platform $dstStringDirectory
 fi
