@@ -59,7 +59,7 @@ function readSrcFile(params) {
 
 function isExist(params, line){
     var start = line.indexOf('"');
-    var end = line.indexOf('" = "', start + 1);
+    var end = line.indexOf('"', start + 1);
     var key = line.substring(start + 1, end);
     if(params.newSrcFileContext.indexOf(key) > 0){
         console.log("Exist key " + key + ", in " + params.srcFile);
@@ -76,13 +76,14 @@ String.prototype.replaceAll = function(search, replacement) {
 
 
 function escape(str){
-    var startIndex = str.indexOf('" = "');
+	var start1 = str.indexOf('"');
+    var start2 = str.indexOf('"', start1 + 1);
+    var startIndex = str.indexOf('"', start2 + 1);;
     var endIndex = str.indexOf('";', startIndex);
-    var content = str.substring(startIndex + 5, endIndex);
-    content = content.replaceAll('\'', '\\\'');
+    var content = str.substring(startIndex + 1, endIndex);
     content = content.replaceAll('"', '\\"');
-    content = content.replaceAll('\\\\\\\\', '\\');
-    var newStr = str.substring(0, startIndex) + '" = "' + content + str.substring(endIndex, str.length);
+	content = content.replaceAll('\\\\\\\\', '\\');
+    var newStr = str.substring(0, startIndex + 1) + content + str.substring(endIndex, str.length);
     return newStr;
 }
 
