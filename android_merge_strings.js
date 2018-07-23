@@ -25,6 +25,10 @@ function mergeFile(srcDir, dstDir){
             if(fs.lstatSync(path).isDirectory() && path.indexOf('values-') > 0 ){
                 var params = new Object();
                 params.srcFile = dstDir + "/" + items[i] + "/strings.xml";
+                if (!fs.existsSync(params.srcFile)){
+                    console.log('Skipped file ' + params.srcFile);
+                    continue;
+                }
                 params.mergeFile = path + "/strings.xml";
                 params.newSrcFileContext = '';
                 params.endFileTag = '';
