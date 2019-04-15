@@ -5,6 +5,10 @@ This script is used to merge new added translation strings to exist Android/iOS 
  2. Call merge script to merge strings to exist Android/iOS project
 
 
+Preconditions:
+1. cd xlrd-1.0.0 && python setup.py install
+2. cd pyexcelerator-0.6.4.1 && python setup.py install
+
 Usage:
 1. Check excel(going to translate) strings whether already translated on your exist project by executing below script(Only support on Android).  
    ./check_key_conflict.sh xxx/xxx.xlsx xxx/app/src/main/res
