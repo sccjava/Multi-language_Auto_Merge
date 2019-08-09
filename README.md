@@ -11,12 +11,13 @@ Preconditions:
 
 Usage:
 1. Check excel(going to translate) strings whether already translated on your exist project by executing below script(Only support on Android).  
-   ./check_key_conflict.sh xxx/xxx.xlsx xxx/app/src/main/res
+   python3   check_key_conflict.py   xx/xx.xlsx   your/android/project/xx/app/src/main/res
 
 2. If detected excel(going to translate) has strings conflict, remove duplicated strings from excel.
    If you confirm need to translate again, remove exist key on your project manually.
 
 3. Confirm your translated excel column filled with correct country code, Android's country code can refer to https://github.com/championswimmer/android-locales
 
-4. After solve all of conflicts, execute below script to merge strings to project automatically.  
-   ./multi_language_audo_merge.sh android xxx/xxx.xlsx xxx/app/src/main/res
+4. After solving all of conflicts, execute below script to merge strings to project automatically.  
+   Android:  python3 merge_xml_android.py  your/android/project/xxx/app/src/main/res
+   iOS:      ./merge_xml_iOS.sh excelFileFullPath dstStringDirectory
