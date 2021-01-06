@@ -10,6 +10,9 @@ Preconditions:
 2. cd pyexcelerator-0.6.4.1 && python setup.py install
 
 Usage:
+0. If you only just need to genereate xml files from excel:
+   python ./python/LocalizableBack.py -f xx.xlsx -t out_path
+
 1. Check excel(going to translate) strings whether already translated on your exist project by executing below script(Only support on Android).  
    python3   check_key_conflict.py   xx/xx.xlsx   your/android/project/xx/app/src/main/res
 
